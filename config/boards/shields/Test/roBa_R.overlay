@@ -1,4 +1,8 @@
 #include "roBa.dtsi"
+#include <input/processors.dtsi>
+
+#define MOUSE_LAYER 4
+#define SCROLL_LAYER 5
 
 &default_transform {
     col-offset = <6>;
@@ -15,10 +19,23 @@
 };
 
 / {
+    /omit-if-no-ref/ zip_temp_layer: zip_temp_layer {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        excluded-positions = <
+            7 // I
+            18  // J
+            19 // K
+            20 // L
+            39 // SPACE
+        >;
+    };
+
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
 
+        input-processors = <&zip_temp_layer MOUSE_LAYER 700>;
     };
 };
 
